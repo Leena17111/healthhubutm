@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthHubUtm - BMI form</title>
+</head>
+<body>
+
+<h1 th:text="${person.id == 0} ? 'Add New Person' : 'Edit Person'"></h1>
+
+<form th:action="${person.id == 0} ? @{/person/save} : @{/person/update}"
+      th:object="${person}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <p>
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required />
+    </p>
+
+    <p>
+        <label>Year of Birth (YOB):</label>
+        <input type="number" th:field="*{yob}" required />
+    </p>
+
+    <p>
+
+        <label>Weight (kg):</label>
+        <input type="number" th:field="*{weight}" step="0.01" required />
+    </p>
+
+    <p>
+        <label>Height (m):</label>
+        <input type="number" th:field="*{height}" step="0.01" required />
+    </p>
+
+    <p>
+        <button type="submit">Save</button>
+        <a th:href="@{/person/list}">Cancel</a>
+    </p>
+
+</form>
+
+</body>
+</html>
