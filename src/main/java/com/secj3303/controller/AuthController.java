@@ -47,7 +47,7 @@ public class AuthController {
 
         // redirect based on role
         if (person.getRole().equals("member")) {
-            return "redirect:/bmi/form";
+            return "redirect:/member/dashboard";
         } else if (person.getRole().equals("admin")) {
             return "redirect:/admin/dashboard";
         } else {
