@@ -27,16 +27,18 @@ public class Enrollment {
     @JoinColumn(name = "program_id", nullable = false)
     private Program program;
 
-    @Column(name = "enrollment_date")
-    private LocalDate enrollmentDate;
+   @Column(name = "enrollment_date")
+private LocalDate enrollmentDate = LocalDate.now();
+
 
     public Enrollment() {}
 
-    public Enrollment(Person member, Program program, LocalDate enrollmentDate) {
-        this.member = member;
-        this.program = program;
-        this.enrollmentDate = enrollmentDate;
-    }
+   public Enrollment(Person member, Program program) {
+    this.member = member;
+    this.program = program;
+    this.enrollmentDate = LocalDate.now();
+}
+
 
     // GETTERS & SETTERS
     

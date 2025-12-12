@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Browse Programs</title>
+    <style>
+        table { width: 80%; margin: auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+        th { background-color: #f1f1f1; }
+        .btn { padding: 6px 12px; text-decoration: none; border-radius: 4px; }
+        .btn-enroll { background-color: #4CAF50; color: white; }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Available Programs</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Program Name</th>
+            <th>Description</th>
+            <th>Duration (weeks)</th>
+            <th>Monthly Fee (RM)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="p : ${programs}">
+            <td th:text="${p.name}"></td>
+            <td th:text="${p.description}"></td>
+            <td th:text="${p.durationWeeks}"></td>
+            <td th:text="${p.monthlyFee}"></td>
+            <td>
+                <a th:href="@{'/member/enroll/' + ${p.id}}"
+                   class="btn btn-enroll">
+                    Enroll
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<div style="text-align:center;">
+    <a th:href="@{/member/dashboard}">Back to Dashboard</a>
+</div>
+
+</body>
+</html>
