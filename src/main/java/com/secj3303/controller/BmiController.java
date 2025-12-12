@@ -1,5 +1,7 @@
 package com.secj3303.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +35,15 @@ public class BmiController {
 public String calcBmi(
         @RequestParam double weight,
         @RequestParam double height,
+        HttpSession session,
         Model model) {
+
+    // 🔑 GET LOGGED-IN PERSON
+    Person person = (Person) session.getAttribute("loggedUser");
+
+    if (person == null) {
+        return "redirect:/login";
+    }
 
     double bmi = weight / (height * height);
     String category;
@@ -43,19 +53,13 @@ public String calcBmi(
     else if (bmi <= 29.9) category = "Overweight";
     else category = "Obese";
 
-    // 🔑 TEMP PERSON (for now)
-    Person person = new Person();
-    person.setId(1); // MUST EXIST IN hhtum_person table
-
-    // 🔑 CREATE BMI RECORD
     BmiRecord record = new BmiRecord();
-    record.setPerson(person);
+    record.setPerson(person);   // ✅ REAL person
     record.setHeight(height);
     record.setWeight(weight);
     record.setBmiValue(bmi);
     record.setCategory(category);
 
-    // 🔑 SAVE TO DATABASE
     bmiDao.save(record);
 
     model.addAttribute("bmi", String.format("%.2f", bmi));
@@ -65,15 +69,23 @@ public String calcBmi(
 }
 
 
+
     // =========================
     // BMI HISTORY
     // =========================
     @GetMapping("/history")
-    public String viewHistory(Model model) {
+public String viewHistory(HttpSession session, Model model) {
 
-        Integer personId = 1; // temporary
-        model.addAttribute("records", bmiDao.findByPerson(personId));
+    Person person = (Person) session.getAttribute("loggedUser");
 
-        return "bmi-history";
+    if (person == null) {
+        return "redirect:/login";
     }
+
+    model.addAttribute("records",
+            bmiDao.findByPerson(person.getId()));
+
+    return "bmi-history";
+}
+
 }
