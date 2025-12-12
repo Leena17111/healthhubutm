@@ -1,59 +1,80 @@
 package com.secj3303.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "hhutm_person")
 public class Person {
 
-    private int id;         // primary key
-    private String name;
-    private int yob;
-    private int age;
-    private double weight;
-    private double height;
-    private double bmi;
-    private String category;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String role;   // "admin", "trainer", "member"
+
+    // ===== Constructors =====
     public Person() {}
 
-    public Person(int id, String name, int yob, int age, double weight, double height, double bmi, String category) {
-        this.id = id;
+    public Person(String email, String name, String password, String role) {
+        this.email = email;
         this.name = name;
-        this.yob = yob;
-        this.age = age;
-        this.weight = weight;
-        this.height = height;
-        this.bmi = bmi;
-        this.category = category;
+        this.password = password;
+        this.role = role;
     }
 
-    public Person(String name, int yob, double weight, double height, String[] something) {
-    this.name = name;
-    this.yob = yob;
-    this.weight = weight;
-    this.height = height;
-}
+    // ===== Getters & Setters =====
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getEmail() {
+        return email;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public int getYob() { return yob; }
-    public void setYob(int yob) { this.yob = yob; }
+    public String getName() {
+        return name;
+    }
 
-    public int getAge() { return age; }
-    public void setAge(int age) { this.age = age; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public double getWeight() { return weight; }
-    public void setWeight(double weight) { this.weight = weight; }
+    public String getPassword() {
+        return password;
+    }
 
-    public double getHeight() { return height; }
-    public void setHeight(double height) { this.height = height; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public double getBmi() { return bmi; }
-    public void setBmi(double bmi) { this.bmi = bmi; }
+    public String getRole() {
+        return role;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

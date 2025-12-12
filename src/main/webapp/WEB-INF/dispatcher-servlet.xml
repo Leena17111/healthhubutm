@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
          http://www.springframework.org/schema/beans
@@ -9,28 +10,22 @@
          http://www.springframework.org/schema/context
          https://www.springframework.org/schema/context/spring-context.xsd
          http://www.springframework.org/schema/mvc
-         https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+         https://www.springframework.org/schema/mvc/spring-mvc.xsd
+         http://www.springframework.org/schema/tx
+         https://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!-- Scan all controllers and services -->
+    <!-- Scan all components -->
     <context:component-scan base-package="com.secj3303" />
 
-    <!-- Enable annotation-based controllers -->
+    <!-- MVC annotations -->
     <mvc:annotation-driven />
 
-    <!-- ======================================================== -->
-    <!-- REMOVE JSP Resolver (to avoid conflict with Thymeleaf)  -->
-    <!-- ======================================================== -->
-    <!--
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/views/" />
-        <property name="suffix" value=".jsp" />
-    </bean>
-    -->
+    <!-- Transaction management -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- ====================== -->
     <!-- THYMELEAF CONFIG       -->
     <!-- ====================== -->
-
     <bean id="templateResolver"
           class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
         <property name="prefix" value="/WEB-INF/views/" />
@@ -40,8 +35,7 @@
         <property name="cacheable" value="false" />
     </bean>
 
-    <bean id="templateEngine"
-          class="org.thymeleaf.spring5.SpringTemplateEngine">
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
     </bean>
 
@@ -50,27 +44,22 @@
         <property name="characterEncoding" value="UTF-8" />
     </bean>
 
-    <!-- Static resources -->
-    <mvc:resources mapping="/resources/**" location="/resources/" />
-    
+    <!-- ========================= -->
+    <!-- DataSource -->
+    <!-- ========================= -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-    <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-    <property name="url" value="jdbc:mysql://localhost:3307/healthhubutm?useSSL=false&amp;serverTimezone=UTC" />
-    <property name="username" value="root" />
-    <property name="password" value="" />
-</bean>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3307/healthhubutm?useSSL=false&amp;serverTimezone=UTC" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
 
-<bean id="personDaoJdbc" class="com.secj3303.dao.PersonDaoJdbc">
-    <constructor-arg ref="dataSource"/>
-</bean>
-
-<!-- ========================= -->
-    <!--  Hibernate SessionFactory  -->
+    <!-- ========================= -->
+    <!-- Hibernate SessionFactory -->
     <!-- ========================= -->
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <!-- Scan for @Entity classes -->
         <property name="packagesToScan" value="com.secj3303.model" />
         <property name="hibernateProperties">
             <props>
@@ -80,6 +69,12 @@
                 <prop key="hibernate.format_sql">true</prop>
             </props>
         </property>
+    </bean>
+
+    <!-- Transaction Manager -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
 </beans>
