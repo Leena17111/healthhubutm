@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>BMI Calculator</title>
+    <style>
+        form {
+            width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">BMI Calculator</h2>
+
+<form th:action="@{/bmi/calc}" method="post">
+
+    <label>Height (meters):</label>
+    <input type="number" name="height" step="0.01" required />
+
+    <label>Weight (kg):</label>
+    <input type="number" name="weight" step="0.1" required />
+
+    <button type="submit">Calculate BMI</button>
+</form>
+
+</body>
+</html>
