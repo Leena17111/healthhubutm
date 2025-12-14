@@ -19,70 +19,90 @@ public class TrainingSessionDaoHibernate implements TrainingSessionDao {
         return sessionFactory.openSession();
     }
 
+    // =========================
+    // SAVE OR UPDATE SESSION
+    // =========================
     @Override
-    public void save(TrainingSession session) {
-        Session hibernateSession = openSession();
-        hibernateSession.beginTransaction();
-        
-        if (session.getId() == null) {
-            hibernateSession.save(session);
-        } else {
-            hibernateSession.update(session);
-        }
-        
-        hibernateSession.getTransaction().commit();
-        hibernateSession.close();
+    public void save(TrainingSession trainingSession) {
+        Session session = openSession();
+        session.beginTransaction();
+
+        // SAFEST Hibernate operation
+        session.saveOrUpdate(trainingSession);
+
+        session.getTransaction().commit();
+        session.close();
     }
 
+    // =========================
+    // FIND BY ID
+    // =========================
     @Override
     public TrainingSession findById(Integer id) {
-        Session hibernateSession = openSession();
-        TrainingSession session = hibernateSession.get(TrainingSession.class, id);
-        hibernateSession.close();
-        return session;
+        Session session = openSession();
+
+        TrainingSession ts = session.get(TrainingSession.class, id);
+
+        session.close();
+        return ts;
     }
 
+    // =========================
+    // FIND BY TRAINER
+    // =========================
     @Override
     public List<TrainingSession> findByTrainer(Integer trainerId) {
-        Session hibernateSession = openSession();
-        
-        List<TrainingSession> list = hibernateSession.createQuery(
-            "FROM TrainingSession WHERE trainer.id = :trainerId ORDER BY sessionDate DESC, sessionTime DESC",
-            TrainingSession.class
+        Session session = openSession();
+
+        List<TrainingSession> list = session.createQuery(
+                "FROM TrainingSession ts " +
+                "LEFT JOIN FETCH ts.trainer " +
+                "LEFT JOIN FETCH ts.member " +
+                "WHERE ts.trainer.id = :trainerId " +
+                "ORDER BY ts.sessionDate DESC, ts.sessionTime DESC",
+                TrainingSession.class
         )
         .setParameter("trainerId", trainerId)
         .list();
-        
-        hibernateSession.close();
+
+        session.close();
         return list;
     }
 
+    // =========================
+    // FIND BY MEMBER
+    // =========================
     @Override
     public List<TrainingSession> findByMember(Integer memberId) {
-        Session hibernateSession = openSession();
-        
-        List<TrainingSession> list = hibernateSession.createQuery(
-            "FROM TrainingSession WHERE member.id = :memberId ORDER BY sessionDate DESC, sessionTime DESC",
-            TrainingSession.class
+        Session session = openSession();
+
+        List<TrainingSession> list = session.createQuery(
+                "FROM TrainingSession ts " +
+                "WHERE ts.member.id = :memberId " +
+                "ORDER BY ts.sessionDate DESC, ts.sessionTime DESC",
+                TrainingSession.class
         )
         .setParameter("memberId", memberId)
         .list();
-        
-        hibernateSession.close();
+
+        session.close();
         return list;
     }
 
+    // =========================
+    // DELETE SESSION
+    // =========================
     @Override
     public void delete(Integer id) {
-        Session hibernateSession = openSession();
-        hibernateSession.beginTransaction();
-        
-        TrainingSession session = hibernateSession.get(TrainingSession.class, id);
-        if (session != null) {
-            hibernateSession.delete(session);
+        Session session = openSession();
+        session.beginTransaction();
+
+        TrainingSession ts = session.get(TrainingSession.class, id);
+        if (ts != null) {
+            session.delete(ts);
         }
-        
-        hibernateSession.getTransaction().commit();
-        hibernateSession.close();
+
+        session.getTransaction().commit();
+        session.close();
     }
 }

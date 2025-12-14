@@ -14,7 +14,7 @@
 
 <h2 style="text-align:center;" th:text="${program.id == null} ? 'Add New Program' : 'Edit Program'"></h2>
 
-<form th:action="@{/program/save}" th:object="${program}" method="post">
+<form th:action="@{/admin/program/save}" th:object="${program}" method="post">
 
     <!-- Hidden ID field for Edit -->
     <input type="hidden" th:field="*{id}" />
@@ -42,7 +42,7 @@
     <input type="number" th:field="*{monthlyFee}" step="0.01" required />
 
     <button type="submit" class="btn">Save</button>
-    <a href="/program/list" class="btn btn-back">Cancel</a>
+    <a th:href="@{/admin/program/list}" class="btn btn-back">Cancel</a>
 </form>
 
 </body>

@@ -2,19 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Browse Programs</title>
-    <style>
-        table { width: 80%; margin: auto; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
-        th { background-color: #f1f1f1; }
-        .btn { padding: 6px 12px; text-decoration: none; border-radius: 4px; }
-        .btn-enroll { background-color: #4CAF50; color: white; }
-    </style>
 </head>
 <body>
 
 <h2 style="text-align:center;">Available Programs</h2>
 
-<table>
+<table border="1" cellpadding="10" cellspacing="0" style="margin:auto; width:80%;">
     <thead>
         <tr>
             <th>Program Name</th>
@@ -28,22 +21,31 @@
 
     <tbody>
         <tr th:each="p : ${programs}">
-            <td th:text="${p.name}"></td>
-            <td th:text="${p.category != null ? p.category.name : '—'}"></td>
-            <td th:text="${p.description}"></td>
-            <td th:text="${p.durationWeeks}"></td>
-            <td th:text="${p.monthlyFee}"></td>
+            <td th:text="${p.name}">Program Name</td>
+            <td th:text="${p.category != null ? p.category.name : '—'}">Category</td>
+            <td th:text="${p.description}">Description</td>
+            <td th:text="${p.durationWeeks}">4</td>
+            <td th:text="${p.monthlyFee}">0.00</td>
+
+            <!-- ACTION COLUMN -->
             <td>
-                <a th:href="@{'/member/enroll/' + ${p.id}}"
-                   class="btn btn-enroll">
+                <!-- Show Enroll if NOT enrolled -->
+                <a th:if="${!enrolledProgramIds.contains(p.id)}"
+                   th:href="@{/member/enroll/{id}(id=${p.id})}">
                     Enroll
                 </a>
+
+                <!-- Show Enrolled if already enrolled -->
+                <span th:if="${enrolledProgramIds.contains(p.id)}">
+                    Enrolled
+                </span>
             </td>
         </tr>
     </tbody>
 </table>
 
 <br>
+
 <div style="text-align:center;">
     <a th:href="@{/member/dashboard}">Back to Dashboard</a>
 </div>

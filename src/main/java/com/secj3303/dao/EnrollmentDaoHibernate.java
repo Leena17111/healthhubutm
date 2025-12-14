@@ -19,15 +19,23 @@ public class EnrollmentDaoHibernate implements EnrollmentDao {
         return sessionFactory.openSession();
     }
 
+    // =========================
+    // SAVE OR UPDATE ENROLLMENT
+    // =========================
     @Override
     public void save(Enrollment enrollment) {
         Session session = openSession();
         session.beginTransaction();
-        session.save(enrollment);
+
+        session.saveOrUpdate(enrollment); // 🔑 IMPORTANT
+
         session.getTransaction().commit();
         session.close();
     }
 
+    // =========================
+    // FIND ENROLLMENTS BY MEMBER
+    // =========================
     @Override
     public List<Enrollment> findByMember(Integer memberId) {
         Session session = openSession();
@@ -43,13 +51,37 @@ public class EnrollmentDaoHibernate implements EnrollmentDao {
         return list;
     }
 
+    // =========================
+    // FIND BY MEMBER + PROGRAM
+    // =========================
+    @Override
+    public Enrollment findByMemberAndProgram(Integer memberId, Integer programId) {
+        Session session = openSession();
+
+        Enrollment enrollment = session.createQuery(
+                "FROM Enrollment e WHERE e.member.id = :mid AND e.program.id = :pid",
+                Enrollment.class
+        )
+        .setParameter("mid", memberId)
+        .setParameter("pid", programId)
+        .uniqueResult();
+
+        session.close();
+        return enrollment;
+    }
+
+    // =========================
+    // FIND ALL
+    // =========================
     @Override
     public List<Enrollment> findAll() {
         Session session = openSession();
+
         List<Enrollment> list = session.createQuery(
                 "FROM Enrollment",
                 Enrollment.class
         ).list();
+
         session.close();
         return list;
     }

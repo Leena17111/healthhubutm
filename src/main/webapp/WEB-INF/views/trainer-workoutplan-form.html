@@ -7,30 +7,41 @@
 
 <h2>Create Workout Plan</h2>
 
-<form th:action="@{/trainer/workout-plan/save}" method="post">
-
+<!-- PROGRAM SELECT -->
+<form method="get" th:action="@{/trainer/workout-plan/create}">
     <label>Program:</label>
-    <select name="programId">
+    <select name="programId" required>
+        <option value="">-- Select Program --</option>
         <option th:each="p : ${programs}"
                 th:value="${p.id}"
-                th:text="${p.name}">
+                th:text="${p.name}"
+                th:selected="${selectedProgram != null and p.id == selectedProgram.id}">
         </option>
     </select>
+    <button type="submit">Load Weeks</button>
+</form>
 
-    <br><br>
+<br>
 
-    <label>Week Number:</label>
-    <input type="number" name="weekNumber" required>
+<!-- WEEKLY PLANS -->
+<form th:if="${selectedProgram != null}"
+      th:action="@{/trainer/workout-plan/save}"
+      method="post">
 
-    <br><br>
+    <input type="hidden" name="programId" th:value="${selectedProgram.id}"/>
 
-    <label>Description:</label><br>
-    <textarea name="description" rows="5" cols="40"></textarea>
+    <div th:each="week : ${#numbers.sequence(1, totalWeeks)}">
+        <h4>Week <span th:text="${week}"></span></h4>
 
-    <br><br>
+       <textarea name="descriptions"
+          rows="4" cols="50"
+          th:placeholder="'Workout plan for week ' + ${week}"
+          required></textarea>
 
-    <button type="submit">Save</button>
+        <br><br>
+    </div>
 
+    <button type="submit">Save Workout Plans</button>
 </form>
 
 </body>

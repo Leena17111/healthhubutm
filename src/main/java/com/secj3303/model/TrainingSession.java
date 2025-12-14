@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="HHUTM_TRAINING_SESSION")
+@Table(name = "hhutm_training_session")
 public class TrainingSession {
 
     @Id
@@ -21,22 +21,25 @@ public class TrainingSession {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name="trainer_id")
+    @JoinColumn(name = "trainer_id")
     private Person trainer;
 
     @ManyToOne
-    @JoinColumn(name="member_id")
+    @JoinColumn(name = "member_id")
     private Person member;
 
+
+    @Column(name = "sessionDate")
     private LocalDate sessionDate;
+
+    @Column(name = "sessionTime")
     private LocalTime sessionTime;
 
-    @Column(length=300)
+    @Column(length = 300)
     private String notes;
 
     public TrainingSession() {}
 
-    // Getters and setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

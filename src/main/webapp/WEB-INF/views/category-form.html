@@ -25,8 +25,7 @@
     <input type="text" th:field="*{name}" required>
 
     <button type="submit" class="btn">Save</button>
-    <a href="/admin/category/list" class="btn btn-back">Cancel</a>
-
+     <a th:href="@{/admin/category/list}" class="btn btn-back">Cancel</a>
 </form>
 
 </body>

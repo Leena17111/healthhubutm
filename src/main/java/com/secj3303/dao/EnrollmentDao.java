@@ -10,6 +10,7 @@ public interface EnrollmentDao {
 
     List<Enrollment> findByMember(Integer memberId);
 
-    List<Enrollment> findAll();
+    Enrollment findByMemberAndProgram(Integer memberId, Integer programId);
 
+    List<Enrollment> findAll();
 }
