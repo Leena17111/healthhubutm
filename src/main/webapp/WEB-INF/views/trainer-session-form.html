@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule Training Session</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        select, input[type="date"], input[type="time"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #666;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Schedule Training Session</h2>
+
+    <form th:action="@{/trainer/sessions/save}" method="post">
+
+        <label for="memberId">Member:</label>
+        <select id="memberId" name="memberId" required>
+            <option value="">-- Select a Member --</option>
+            <option th:each="member : ${members}"
+                    th:value="${member.id}"
+                    th:text="${member.name + ' (' + member.email + ')'}">
+            </option>
+        </select>
+
+        <label for="sessionDate">Session Date:</label>
+        <input type="date" id="sessionDate" name="sessionDate" required>
+
+        <label for="sessionTime">Session Time:</label>
+        <input type="time" id="sessionTime" name="sessionTime" required>
+
+        <label for="notes">Notes (Optional):</label>
+        <textarea id="notes" name="notes" placeholder="Add any additional notes about this session..."></textarea>
+
+        <button type="submit">Schedule Session</button>
+
+    </form>
+
+    <a th:href="@{/trainer/dashboard}" class="back-link">← Back to Dashboard</a>
+
+</body>
+</html>
+
