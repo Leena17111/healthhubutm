@@ -22,6 +22,16 @@
     <label>Program Name:</label>
     <input type="text" th:field="*{name}" required />
 
+    <label>Category:</label>
+<select th:field="*{category.id}">
+    <option value="">Select Category</option>
+    <option th:each="c : ${categories}"
+            th:value="${c.id}"
+            th:text="${c.name}">
+    </option>
+</select>
+
+
     <label>Description / Goal:</label>
     <textarea th:field="*{description}" rows="3"></textarea>
 

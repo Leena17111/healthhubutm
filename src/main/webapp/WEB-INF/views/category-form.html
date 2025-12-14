@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Category Form</title>
+    <style>
+        form { width: 350px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 6px; }
+        label { margin-top: 10px; display: block; font-weight: bold; }
+        input { width: 100%; padding: 8px; }
+        .btn { margin-top: 15px; padding: 8px 14px; border-radius: 4px; background-color:#4CAF50; color:white; }
+        .btn-back { background-color:#777; }
+    </style>
+</head>
+
+<body>
+
+<h2 style="text-align:center;" 
+    th:text="${category.id == null} ? 'Add Category' : 'Edit Category'">
+</h2>
+
+<form th:action="@{/admin/category/save}" th:object="${category}" method="post">
+
+    <input type="hidden" th:field="*{id}">
+
+    <label>Category Name:</label>
+    <input type="text" th:field="*{name}" required>
+
+    <button type="submit" class="btn">Save</button>
+    <a href="/admin/category/list" class="btn btn-back">Cancel</a>
+
+</form>
+
+</body>
+</html>

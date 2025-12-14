@@ -27,6 +27,7 @@
         <tr>
             <th>ID</th>
             <th>Program Name</th>
+            <th>Category</th>   
             <th>Description / Goal</th>
             <th>Duration (weeks)</th>
             <th>Monthly Fee (RM)</th>
@@ -38,6 +39,7 @@
         <tr th:each="p : ${programList}">
             <td th:text="${p.id}"></td>
             <td th:text="${p.name}"></td>
+            <td th:text="${p.category != null ? p.category.name : '—'}"></td>
             <td th:text="${p.description}"></td>
             <td th:text="${p.durationWeeks}"></td>
             <td th:text="${p.monthlyFee}"></td>
