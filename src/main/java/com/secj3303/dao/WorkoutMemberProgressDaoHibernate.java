@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.secj3303.model.WorkoutMemberProgress;
 
 @Repository
-public class WorkoutMemberProgressDaoHibernate implements WorkoutMemberProgressDao {
+public class WorkoutMemberProgressDaoHibernate
+        implements WorkoutMemberProgressDao {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -28,14 +29,24 @@ public class WorkoutMemberProgressDaoHibernate implements WorkoutMemberProgressD
         session.close();
     }
 
+    // ✅ THIS WAS MISSING
+    @Override
+    public WorkoutMemberProgress findById(Integer id) {
+        Session session = openSession();
+        WorkoutMemberProgress progress =
+                session.get(WorkoutMemberProgress.class, id);
+        session.close();
+        return progress;
+    }
+
     @Override
     public WorkoutMemberProgress findByMemberAndPlan(Integer memberId, Integer workoutPlanId) {
         Session session = openSession();
 
         WorkoutMemberProgress result = session.createQuery(
-            "FROM WorkoutMemberProgress p " +
-            "WHERE p.member.id = :mid AND p.workoutPlan.id = :wid",
-            WorkoutMemberProgress.class
+                "FROM WorkoutMemberProgress p " +
+                "WHERE p.member.id = :mid AND p.workoutPlan.id = :wid",
+                WorkoutMemberProgress.class
         )
         .setParameter("mid", memberId)
         .setParameter("wid", workoutPlanId)
@@ -50,8 +61,8 @@ public class WorkoutMemberProgressDaoHibernate implements WorkoutMemberProgressD
         Session session = openSession();
 
         List<WorkoutMemberProgress> list = session.createQuery(
-            "FROM WorkoutMemberProgress p WHERE p.workoutPlan.id = :wid",
-            WorkoutMemberProgress.class
+                "FROM WorkoutMemberProgress p WHERE p.workoutPlan.id = :wid",
+                WorkoutMemberProgress.class
         )
         .setParameter("wid", workoutPlanId)
         .list();
@@ -65,8 +76,8 @@ public class WorkoutMemberProgressDaoHibernate implements WorkoutMemberProgressD
         Session session = openSession();
 
         List<WorkoutMemberProgress> list = session.createQuery(
-            "FROM WorkoutMemberProgress p WHERE p.member.id = :mid",
-            WorkoutMemberProgress.class
+                "FROM WorkoutMemberProgress p WHERE p.member.id = :mid",
+                WorkoutMemberProgress.class
         )
         .setParameter("mid", memberId)
         .list();
