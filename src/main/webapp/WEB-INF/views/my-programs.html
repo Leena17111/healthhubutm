@@ -16,6 +16,7 @@
     <thead>
         <tr>
             <th>Program Name</th>
+            <th>Category</th>
             <th>Duration (weeks)</th>
             <th>Monthly Fee (RM)</th>
             <th>Enrollment Date</th>
@@ -25,6 +26,7 @@
     <tbody>
         <tr th:each="e : ${enrollments}">
             <td th:text="${e.program.name}"></td>
+            <td th:text="${e.program.category.name}"></td>
             <td th:text="${e.program.durationWeeks}"></td>
             <td th:text="${e.program.monthlyFee}"></td>
             <td th:text="${e.enrollmentDate}"></td>

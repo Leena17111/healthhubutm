@@ -3,8 +3,13 @@ package com.secj3303.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.secj3303.dao.CategoryDao;
 import com.secj3303.dao.ProgramDao;
 import com.secj3303.model.Program;
 
@@ -14,6 +19,9 @@ public class ProgramController {
 
     @Autowired
     private ProgramDao programDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
 
     // ===================================
     // 1. LIST ALL PROGRAMS
@@ -32,6 +40,7 @@ public class ProgramController {
     @GetMapping("/create")
     public String createProgramForm(Model model) {
         model.addAttribute("program", new Program());
+        model.addAttribute("categories", categoryDao.findAll());
         return "program-form";
     }
 
@@ -53,6 +62,7 @@ public class ProgramController {
     public String editProgram(@PathVariable("id") Integer id, Model model) {
         Program program = programDao.findById(id);
         model.addAttribute("program", program);
+         model.addAttribute("categories", categoryDao.findAll());
         return "program-form";
     }
 

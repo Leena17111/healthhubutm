@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,54 +29,36 @@ public class Program {
     @Column(name = "monthly_fee")
     private Double monthlyFee;
 
-    public Program() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    public Program(String name, String description, Integer durationWeeks, Double monthlyFee) {
+    public Program() {}
+
+    public Program(String name, String description, Integer durationWeeks, Double monthlyFee, Category category) {
         this.name = name;
         this.description = description;
         this.durationWeeks = durationWeeks;
         this.monthlyFee = monthlyFee;
+        this.category = category;
     }
 
-    // getters & setters
-    public Integer getId() {
-        return id;
-    }
+    // Getters & Setters
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public Integer getDurationWeeks() { return durationWeeks; }
+    public void setDurationWeeks(Integer durationWeeks) { this.durationWeeks = durationWeeks; }
 
-    public String getDescription() {
-        return description;
-    }
+    public Double getMonthlyFee() { return monthlyFee; }
+    public void setMonthlyFee(Double monthlyFee) { this.monthlyFee = monthlyFee; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getDurationWeeks() {
-        return durationWeeks;
-    }
-
-    public void setDurationWeeks(Integer durationWeeks) {
-        this.durationWeeks = durationWeeks;
-    }
-
-    public Double getMonthlyFee() {
-        return monthlyFee;
-    }
-
-    public void setMonthlyFee(Double monthlyFee) {
-        this.monthlyFee = monthlyFee;
-    }
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
 }
