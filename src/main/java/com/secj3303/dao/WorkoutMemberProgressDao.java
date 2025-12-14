@@ -1,6 +1,7 @@
 package com.secj3303.dao;
 
 import java.util.List;
+
 import com.secj3303.model.WorkoutMemberProgress;
 
 public interface WorkoutMemberProgressDao {
@@ -14,4 +15,6 @@ public interface WorkoutMemberProgressDao {
     List<WorkoutMemberProgress> findByWorkoutPlan(Integer workoutPlanId);
 
     List<WorkoutMemberProgress> findByMember(Integer memberId);
+
+    List<WorkoutMemberProgress> findAll();
 }

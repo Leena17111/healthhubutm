@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.secj3303.dao.PersonDao;
 import com.secj3303.dao.TrainingSessionDao;
+import com.secj3303.dao.WorkoutMemberProgressDao;
 import com.secj3303.model.Person;
 import com.secj3303.model.TrainingSession;
 
@@ -28,6 +29,9 @@ public class TrainerController {
 
     @Autowired
     private PersonDao personDao;
+
+    @Autowired
+    private WorkoutMemberProgressDao workoutMemberProgressDao;
 
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session) {
@@ -111,4 +115,18 @@ public class TrainerController {
         trainingSessionDao.delete(id);
         return "redirect:/trainer/sessions/list";
     }
+
+    // MONITOR WORKOUTS
+    @GetMapping("/monitor-workouts")
+    public String monitorWorkouts(HttpSession session, Model model) {
+
+        Person trainer = (Person) session.getAttribute("loggedUser");
+        if (trainer == null || !"trainer".equals(trainer.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("progressList",
+                workoutMemberProgressDao.findAll());
+
+        return "trainer-monitor-workouts"; }
 }

@@ -9,4 +9,7 @@ public interface EnrollmentDao {
     void save(Enrollment enrollment);
 
     List<Enrollment> findByMember(Integer memberId);
+
+    List<Enrollment> findAll();
+
 }

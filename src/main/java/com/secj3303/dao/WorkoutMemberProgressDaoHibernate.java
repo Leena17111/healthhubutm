@@ -85,4 +85,16 @@ public class WorkoutMemberProgressDaoHibernate
         session.close();
         return list;
     }
+
+    @Override
+    public List<WorkoutMemberProgress> findAll() {
+        Session session = openSession();
+        List<WorkoutMemberProgress> list = session.createQuery(
+                "FROM WorkoutMemberProgress",
+                WorkoutMemberProgress.class
+        ).list();
+        session.close();
+        return list;
+    }
+
 }

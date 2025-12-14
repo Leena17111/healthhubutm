@@ -85,9 +85,4 @@ public class TrainingSessionDaoHibernate implements TrainingSessionDao {
         hibernateSession.getTransaction().commit();
         hibernateSession.close();
     }
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 91c5274724d7ef4805e337b1d1b1648d6a941856

@@ -42,4 +42,15 @@ public class EnrollmentDaoHibernate implements EnrollmentDao {
         session.close();
         return list;
     }
+
+    @Override
+    public List<Enrollment> findAll() {
+        Session session = openSession();
+        List<Enrollment> list = session.createQuery(
+                "FROM Enrollment",
+                Enrollment.class
+        ).list();
+        session.close();
+        return list;
+    }
 }

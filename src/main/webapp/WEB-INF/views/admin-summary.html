@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin Dashboard</title>
+    <title>System Summary</title>
 </head>
 <body>
 
-<h2>Admin Dashboard</h2>
+<h2>System Summary</h2>
 
-<h3>System Overview</h3>
 <ul>
     <li>Total Members: <span th:text="${totalMembers}">0</span></li>
     <li>Total Trainers: <span th:text="${totalTrainers}">0</span></li>
     <li>Total Programs: <span th:text="${totalPrograms}">0</span></li>
+    <li>Total Categories: <span th:text="${totalCategories}">0</span></li>
     <li>Total Enrollments: <span th:text="${totalEnrollments}">0</span></li>
 </ul>
 
-<h3>Management</h3>
-<ul>
-    <li><a th:href="@{/admin/program/list}">Manage Programs</a></li>
-    <li><a th:href="@{/admin/category/list}">Manage Categories</a></li>
-    <li><a th:href="@{/admin/summary}">View System Summary</a></li>
-</ul>
+<a th:href="@{/admin/dashboard}">← Back to Dashboard</a>
 
 </body>
 </html>
