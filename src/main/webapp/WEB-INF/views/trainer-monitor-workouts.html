@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Workout Progress Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+        .container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 1000px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        .done {
+            color: green;
+            font-weight: bold;
+        }
+        .pending {
+            color: orange;
+            font-weight: bold;
+        }
+        .back {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .back a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Member Workout Progress</h2>
+
+    <table>
+        <tr>
+            <th>Member</th>
+            <th>Program</th>
+            <th>Week</th>
+            <th>Description</th>
+            <th>Status</th>
+        </tr>
+
+        <tr th:each="p : ${progressList}">
+            <td th:text="${p.member.name}"></td>
+            <td th:text="${p.workoutPlan.program.name}"></td>
+            <td th:text="${p.workoutPlan.weekNumber}"></td>
+            <td th:text="${p.workoutPlan.description}"></td>
+            <td>
+                <span th:if="${p.completed}" class="done">Completed</span>
+                <span th:if="${!p.completed}" class="pending">Pending</span>
+            </td>
+        </tr>
+    </table>
+
+    <div class="back">
+        <a th:href="@{/trainer/dashboard}">← Back to Dashboard</a>
+    </div>
+</div>
+
+</body>
+</html>

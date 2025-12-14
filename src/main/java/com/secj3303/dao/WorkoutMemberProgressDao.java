@@ -14,4 +14,6 @@ public interface WorkoutMemberProgressDao {
     List<WorkoutMemberProgress> findByWorkoutPlan(Integer workoutPlanId);
 
     List<WorkoutMemberProgress> findByMember(Integer memberId);
+    List<WorkoutMemberProgress> findAll();
+
 }
