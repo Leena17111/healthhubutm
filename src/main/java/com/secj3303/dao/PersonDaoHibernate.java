@@ -1,5 +1,7 @@
 package com.secj3303.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +50,30 @@ public class PersonDaoHibernate implements PersonDao {
     }
 
     @Override
-public void save(Person person) {
-    Session session = open();
-    session.beginTransaction();
-    session.save(person);
-    session.getTransaction().commit();
-    session.close();
-}
+    public void save(Person person) {
+        Session session = open();
+        session.beginTransaction();
+        session.save(person);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    // =======================
+    // FIND BY ROLE
+    // =======================
+    @Override
+    public List<Person> findByRole(String role) {
+        Session session = open();
+        
+        List<Person> list = session.createQuery(
+                "FROM Person WHERE role = :role ORDER BY name",
+                Person.class
+        )
+        .setParameter("role", role)
+        .list();
+        
+        session.close();
+        return list;
+    }
 
 }
